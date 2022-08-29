@@ -16,7 +16,7 @@ print("Loading model")
 #sess = tf.compat.v1.Session()
 #set_session(sess)
 global model 
-model = load_model('AppleOrangeRGBWorking.h5') 
+model = load_model('carnormaldamageRGBWorking.h5') 
 #global graph
 #graph = tf.compat.v1.get_default_graph()
 
@@ -34,7 +34,7 @@ def prediction(filename):
     #Step 1
     my_image = plt.imread(os.path.join('uploads', filename))
     #Step 2
-    my_image_re = resize(my_image, (32,32,3))
+    my_image_re = resize(my_image, (64,64,3))
     
     #Step 3
     #with graph.as_default():
@@ -44,16 +44,15 @@ def prediction(filename):
     probabilities = model.predict(np.array( [my_image_re,] ))[0,:]
     print(probabilities)
     #Step 4
-    number_to_class = ['airplane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 
-'truck']
+    number_to_class = ['Damaged', 'Normal']
     index = np.argsort(probabilities)
     predictions = {
-      "class1":number_to_class[index[9]],
-      "class2":number_to_class[index[8]],
-      "class3":number_to_class[index[7]],
-      "prob1":probabilities[index[9]],
-      "prob2":probabilities[index[8]],
-      "prob3":probabilities[index[7]],
+      "class1":number_to_class[index[1]],
+      "class2":number_to_class[index[0]],
+      #"class3":number_to_class[index[7]],
+      "prob1":probabilities[index[1]],
+      "prob2":probabilities[index[0]],
+      #"prob3":probabilities[index[7]],
      }
     #Step 5
     return render_template('predict.html', predictions=predictions)
